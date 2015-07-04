@@ -1,5 +1,6 @@
 package com.yourdot.spotifystreamer;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,7 +25,7 @@ import kaaes.spotify.webapi.android.models.ArtistsPager;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class ArtistSearchActivityFragment extends Fragment {
 
     private ArtistAdapter artistAdapter;
     private EditText editText;
@@ -32,14 +34,14 @@ public class MainActivityFragment extends Fragment {
     private View view;
     private FetchArtistsTask fetchArtistsTask;
 
-    public MainActivityFragment() {
+    public ArtistSearchActivityFragment() {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_main, container, false);
+        return inflater.inflate(R.layout.fragment_artist_search, container, false);
     }
 
     @Override
@@ -87,6 +89,21 @@ public class MainActivityFragment extends Fragment {
             }
         });
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String artist_id = artistAdapter.getItem(position).id ;
+
+                Intent sendArtistToTopTracksActivity = new Intent(getActivity(), TopTracksActivity.class)
+                        .putExtra(Intent.EXTRA_TEXT, artist_id);
+
+                startActivity(sendArtistToTopTracksActivity);
+
+            }
+        });
+
     }
 
     public class FetchArtistsTask extends AsyncTask<String, Void, List<Artist>> {
@@ -106,7 +123,7 @@ public class MainActivityFragment extends Fragment {
         protected void onPostExecute(List<Artist> artists) {
             super.onPostExecute(artists);
 
-            artistAdapter = new ArtistAdapter(getActivity(), R.layout.artist_listview_item, artists);
+            artistAdapter = new ArtistAdapter(getActivity(), R.layout.item_listview_artist, artists);
             listView.setAdapter(artistAdapter);
 
             if (artists.isEmpty()) {
