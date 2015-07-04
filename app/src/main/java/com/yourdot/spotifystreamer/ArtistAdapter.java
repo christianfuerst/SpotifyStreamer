@@ -62,7 +62,7 @@ public class ArtistAdapter extends ArrayAdapter<Artist> {
                     .into(artistHolder.imageView_artist);
         } else {
             Picasso.with(context)
-                    .load(R.drawable.artist_placeholder)
+                    .load(R.drawable.placeholder)
                     .into(artistHolder.imageView_artist);
         }
 
