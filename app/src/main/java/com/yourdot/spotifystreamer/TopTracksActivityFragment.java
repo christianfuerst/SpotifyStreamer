@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import kaaes.spotify.webapi.android.SpotifyApi;
@@ -90,7 +91,7 @@ public class TopTracksActivityFragment extends Fragment {
             SpotifyService spotifyService = spotifyApi.getService();
 
             Map<String, Object> options = new HashMap<>();
-            options.put("country", "DE");
+            options.put("country", Locale.getDefault().getCountry());
 
             Tracks tracks = spotifyService.getArtistTopTrack(params[0], options);
 
